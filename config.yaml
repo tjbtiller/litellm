@@ -55,27 +55,37 @@ model_list:
 
 litellm_settings:
   drop_params: True
-  # max_budget: 100 
-  # budget_duration: 30d
   num_retries: 5
   request_timeout: 600
   telemetry: False
   context_window_fallbacks: [{"gpt-3.5-turbo": ["gpt-3.5-turbo-large"]}]
-  # qdrant
   set_verbose: True
-  cache: True          # set cache responses to True, litellm defaults to using a redis cache
+  cache: True
   cache_params:
+    # Primary caching type - Qdrant for semantic matching
     type: qdrant-semantic
     qdrant_semantic_cache_embedding_model: openai-embedding
     qdrant_collection_name: litellm
     qdrant_quantization_config: binary
-    similarity_threshold: 0.8
+    similarity_threshold: 0.82  # Slightly increased precision
+    
+    # Redis configuration for exact matching
     redis_url: os.environ/REDIS_URL
-    redis_semantic_caching: False
+    redis_semantic_caching: False  # Redis for exact matches only
     redis_ttl: 86400  # 24 hours cache duration
+    
+    # Control which API endpoints use caching
+    supported_call_types: ["completion", "acompletion", "embedding", "aembedding"]
+    
+    # Additional cache parameters
+    default_in_memory_ttl: 60  # Brief in-memory cache
+    default_in_redis_ttl: 86400  # 24 hours in Redis
+    
+    # Cache control headers - respect client directives
+    cache_control_header: True
 
 general_settings: 
-  master_key: os.environ/LITELLM_MASTER_KEY # This will use the LITELLM_MASTER_KEY env variable
+  master_key: os.environ/LITELLM_MASTER_KEY
   database_url: os.environ/DATABASE_URL
   store_model_in_db: True
   proxy_budget_rescheduler_min_time: 60
@@ -83,4 +93,3 @@ general_settings:
   proxy_batch_write_at: 1
   telemetry: True
   detailed_metrics: True
-
