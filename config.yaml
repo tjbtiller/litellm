@@ -67,12 +67,12 @@ litellm_settings:
   cache_params:
     type: qdrant-semantic
     qdrant_semantic_cache_embedding_model: openai-embedding # the model should be defined on the model_list
-    qdrant_collection_name: test_collection
+    qdrant_collection_name: litellm
     qdrant_quantization_config: binary
     similarity_threshold: 0.8   # similarity threshold for semantic cache
 
 general_settings: 
-  master_key: sk-1234 # [OPTIONAL] Use to enforce auth on proxy. See - https://docs.litellm.ai/docs/proxy/virtual_keys
+  master_key: os.environ/LITELLM_MASTER_KEY # This will use the LITELLM_MASTER_KEY env variable
   store_model_in_db: True
   proxy_budget_rescheduler_min_time: 60
   proxy_budget_rescheduler_max_time: 64
