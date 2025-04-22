@@ -66,21 +66,21 @@ litellm_settings:
   cache: True          # set cache responses to True, litellm defaults to using a redis cache
   cache_params:
     type: qdrant-semantic
-    qdrant_semantic_cache_embedding_model: openai-embedding # the model should be defined on the model_list
+    qdrant_semantic_cache_embedding_model: openai-embedding
     qdrant_collection_name: litellm
     qdrant_quantization_config: binary
-    similarity_threshold: 0.8   # similarity threshold for semantic cache
+    similarity_threshold: 0.8
+    redis_url: os.environ/REDIS_URL
+    redis_semantic_caching: False
+    redis_ttl: 86400  # 24 hours cache duration
 
 general_settings: 
   master_key: os.environ/LITELLM_MASTER_KEY # This will use the LITELLM_MASTER_KEY env variable
+  database_url: os.environ/DATABASE_URL
   store_model_in_db: True
   proxy_budget_rescheduler_min_time: 60
   proxy_budget_rescheduler_max_time: 64
   proxy_batch_write_at: 1
-  # database_url: "postgresql://<user>:<password>@<host>:<port>/<dbname>" # [OPTIONAL] use for token-based auth to proxy
+  telemetry: True
+  detailed_metrics: True
 
-# environment_variables:
-  # settings for using redis caching
-  # REDIS_HOST: redis-16337.c322.us-east-1-2.ec2.cloud.redislabs.com
-  # REDIS_PORT: "16337"
-  # REDIS_PASSWORD: 
