@@ -61,13 +61,15 @@ litellm_settings:
   context_window_fallbacks: [{"gpt-3.5-turbo": ["gpt-3.5-turbo-large"]}]
   set_verbose: True
   cache: True
+  verbose_cache: True
+  debug_cache_headers: True
   cache_params:
     # Primary caching type - Qdrant for semantic matching
     type: qdrant-semantic
     qdrant_semantic_cache_embedding_model: openai-embedding
     qdrant_collection_name: litellm
     qdrant_quantization_config: binary
-    similarity_threshold: 0.82  # Slightly increased precision
+    similarity_threshold: 0.92
     
     # Redis configuration for exact matching
     redis_url: os.environ/REDIS_URL
